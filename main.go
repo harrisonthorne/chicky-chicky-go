@@ -10,6 +10,7 @@ import (
 )
 
 func main() {
+    // I believe this ensures that our program always runs on the same process
 	runtime.LockOSThread()
 
 	if err := glfw.Init(); err != nil {
@@ -45,10 +46,14 @@ func main() {
 	// gl.UseProgram(program)
 
 	for !window.ShouldClose() {
-		gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
+        var delta float32
+
+        // TODO: calculate delta
 		game.Input();
-		game.Logic();
+		game.Logic(delta);
+
+		gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 		game.Render();
 
 		window.SwapBuffers()
