@@ -1,6 +1,16 @@
 package interfaces
 
-import "chicky-chicky-go/blocks"
+import (
+	"chicky-chicky-go/game/blocks"
+	"chicky-chicky-go/game/space"
+)
+
+// AABB is an Axis-Aligned Bounding Box. it is
+// used to check for collisions in collision detection.
+type AABB struct {
+	Position Point
+	Width, Height float32
+}
 
 // Animatable is an interface that can be added to
 // objects that animate. It calls its Animate(delta) method
