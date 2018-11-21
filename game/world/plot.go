@@ -15,3 +15,10 @@ type Plot struct {
 func (p Plot) IsOnScreen() bool {
 	return false;
 }
+
+// Render renders Plot p
+func (p Plot) Render() {
+	if !p.IsOnScreen() {
+		return
+	}
+}
