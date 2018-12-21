@@ -1,6 +1,6 @@
 package space
 
-// Velocity holds a dx and dy vector.
+// Velocity holds a dx, dy, and dz vector.
 type Velocity struct {
-	Dx, Dy float32
+	Dx, Dy, Dz float32
 }
