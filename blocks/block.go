@@ -1,6 +1,6 @@
 package blocks
 
-import "chicky-chicky-go/interfaces"
+import "chicky-chicky-go/types"
 
 // Block block block block block block block block
 type Block struct {
@@ -18,8 +18,3 @@ func (b *Block) Hit(points float32) {
 func (b *Block) Kill() []Item {
 	return make([]Item, 1)
 }	
-
-
-// Item TODO: build this
-type Item struct {
-}

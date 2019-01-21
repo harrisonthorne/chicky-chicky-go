@@ -4,13 +4,17 @@ import (
 	"github.com/go-gl/glfw/v3.2/glfw"
 )
 
-// Manager contains KeyboardListeners and MouseListeners. KeyboardListeners and MouseListeners can be added to it, and triggered when the Manager's callback is called.
+// Manager contains KeyboardListeners and MouseListeners.
+// KeyboardListeners and MouseListeners can be added to it,
+// and triggered when the Manager's callback is called.
 type Manager struct {
 	keyboards []KeyboardListener
-	// mice []MouseListener
+	mice []MouseListener
 }
 
-// KeyCallback is a function for the key callback of Manager m. When this callback is called, respective functions of all children KeyboardListeners are called
+// KeyCallback is a function for the key callback of Manager
+// m. When this callback is called, respective functions of
+// all children KeyboardListeners are called
 func (m Manager) KeyCallback(w *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey) {
 	switch(action) {
 	case glfw.Press:
@@ -28,9 +32,28 @@ func (m Manager) KeyCallback(w *glfw.Window, key glfw.Key, scancode int, action 
 	}
 }
 
+// MouseCallback is a function for the mouse callback of
+// Manager m. When this callback is called, respective
+// functions of all children MouseListeners are called
+func (m Manager) MouseCallback() {
+	// switch(action) {
+	// case glfw.Repeat:
+    // for _, kl := range m.keyboards {
+    // 	kl.KeyRepeat(key, scancode, mods)
+    // }
+	// }
+}
+
 // AddKeyboardListener adds a KeyboardListener to
 // the Manager. The new KeyboardListener will be
 // triggered when there is a key event.
 func (m Manager) AddKeyboardListener(kl KeyboardListener) {
 	m.keyboards = append(m.keyboards, kl)
 }
+
+// AddMouseListener adds a MouseListener to
+// the Manager. The new MouseListener will be
+// triggered when there is a mouse event.
+// func (m Manager) AddMouseListener(ml MouseListener) {
+// 	m.keyboards = append(m.mice, ml)
+// }

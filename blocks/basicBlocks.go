@@ -7,10 +7,10 @@ type GrassBlock struct {
 
 // NewGrassBlock creates a new GrassBlock and returns it
 func NewGrassBlock() GrassBlock {
-	return GrassBlock {
+	return GrassBlock{
 		Block: Block{
-			KillableFields: KillableFields{
-				15, 
+			Killable: Killable{
+				15,
 				15,
 			},
 			spritePath: "grass.png",
@@ -23,12 +23,12 @@ type DirtBlock struct {
 	Block
 }
 
-// NewDirtBlock creates and  returns a new DirtBlock
+// NewDirtBlock creates and returns a new DirtBlock
 func NewDirtBlock() DirtBlock {
-	return DirtBlock {
+	return DirtBlock{
 		Block: Block{
-			KillableFields: KillableFields{
-				10, 
+			Killable: Killable{
+				10,
 				10,
 			},
 			spritePath: "dirt.png",

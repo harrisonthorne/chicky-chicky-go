@@ -3,37 +3,34 @@ package main
 import (
 	//    "github.com/go-gl/gl/v4.1-core/gl"
 	mgl "github.com/go-gl/mathgl/mgl32"
+    "chicky-chicky-go/game/space"
 )
 
-// Point holds an x, y, z coordinate
-type Point struct {
-	X, Y, Z float32
-}
 
 // Camera is a camera
 type Camera struct {
-	position    Point
+	position    space.Point
 	fov         float32
-	perspective mgl.Mat4
+	perspective mgl.Mat4 // perspective matrix
 	orientation mgl.Mat4 // stores position and rotation of the camera
 	aspectRatio float32
 }
 
 // NewCamera constructs and returns a new Camera object
-func NewCamera(position Point, fov float32, aspectRatio float32) Camera {
+func NewCamera(position space.Point, fov float32, aspectRatio float32) Camera {
 	c := Camera{position: position, fov: fov, aspectRatio: aspectRatio}
 	c.UpdateAllMatrices()
 	return c
 }
 
 // SetPosition sets the position of Camera c
-func (c *Camera) SetPosition(p Point) {
+func (c *Camera) SetPosition(p space.Point) {
 	c.position = p
 	c.UpdateOrientationMatrix()
 }
 
-// GetPosition returns the position of Camera c
-func (c Camera) GetPosition() Point {
+// Position returns the position of Camera c
+func (c *Camera) Position() space.Point {
 	return c.position
 }
 
@@ -59,7 +56,7 @@ func (c *Camera) UpdateOrientationMatrix() mgl.Mat4 {
 
 // GetMatrices returns both the perspective and orientation
 // matrices of Camera c.
-func (c Camera) GetMatrices() (perspective mgl.Mat4, orientation mgl.Mat4) {
+func (c *Camera) Matrices() (perspective mgl.Mat4, orientation mgl.Mat4) {
 	perspective = c.perspective
 	orientation = c.orientation
 	return
