@@ -1,6 +1,6 @@
 package world
 
-import b "chicky-chicky-go/game/blocks"
+import b "github.com/harrisonthorne/chicky-chicky-go/blocks"
 
 // Plot contains a three-dimensional array of blocks
 type Plot struct {

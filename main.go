@@ -1,10 +1,12 @@
 package main
 
 import (
-	"chicky-chicky-go/game"
+	"github.com/harrisonthorne/chicky-chicky-go/game"
 
 	"fmt"
+	"go/build"
 	"log"
+	"os"
 	"runtime"
 	"time"
 
@@ -12,9 +14,27 @@ import (
 	"github.com/go-gl/glfw/v3.2/glfw"
 )
 
+func init() {
+    // we have to change the working directory of chicky
+    // chicky to its package path for imports and such
+	p, err := build.Import("github.com/harrisonthorne/chicky-chicky-go", "", build.FindOnly)
+	if err != nil {
+		panic(err)
+	}
+
+	if err != nil {
+		log.Fatalln("", err)
+	}
+
+	err = os.Chdir(p.Dir)
+	if err != nil {
+		log.Panicln("os.Chdir:", err)
+	}
+}
+
 func main() {
 	// I believe this ensures that our program always runs on the same process
-    runtime.LockOSThread()
+	runtime.LockOSThread()
 
 	if err := glfw.Init(); err != nil {
 		log.Fatalln("failed to initialize glfw: ", err)
@@ -41,19 +61,12 @@ func main() {
 	version := gl.GoStr(gl.GetString(gl.VERSION))
 	fmt.Println("OpenGL version", version)
 
-	// vertex and fragment shaders
-	// program, err := newProgram(vertexShader, fragmentShader)
-	// if err != nil {
-	// 	panic(err)
-	// }
-
-	// gl.UseProgram(program)
 	gl.ClearColor(0, 0.5, 0.7, 1)
 
 	lastUpdate := time.Now()
 
 	for !window.ShouldClose() {
-		deltaSeconds := float32(time.Now().Sub(lastUpdate) / time.Second)
+		deltaSeconds := float32(time.Now().Sub(lastUpdate).Seconds())
 
 		game.Logic(deltaSeconds)
 
@@ -61,5 +74,6 @@ func main() {
 		game.Render()
 
 		window.SwapBuffers()
+		glfw.PollEvents()
 	}
 }

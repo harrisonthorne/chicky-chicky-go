@@ -1,12 +1,9 @@
 package characters
 
+
 // CharacterAction specifies what a certain character is
 // doing
 type CharacterAction int8
-
-// CharacterDirection is Right or Left, telling which direction a
-// character is facing
-type CharacterDirection int8
 
 // Definitions for CharacterAction
 const (
@@ -24,8 +21,13 @@ const (
 	ActionEat
 )
 
+
+// Direction is Right or Left, telling which direction a
+// character (or whatever) is facing
+type Direction int8
+
 // Definitions for CharacterDirection
 const (
-	DirectionRight CharacterAction = iota
+	DirectionRight Direction = iota
 	DirectionLeft
 )

@@ -4,8 +4,8 @@ import (
 	// "github.com/go-gl/gl/v4.1-core/gl"
 	// "github.com/go-gl/glfw/v3.2/gl"
 	// "github.com/go-gl/mathgl/mgl32"
-	"chicky-chicky-go/characters"
-	"chicky-chicky-go/input"
+	"github.com/harrisonthorne/chicky-chicky-go/characters"
+	"github.com/harrisonthorne/chicky-chicky-go/input"
 )
 
 // InputManager is the game's main input manager for

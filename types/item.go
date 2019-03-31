@@ -1,6 +1,8 @@
 package types
 
-// Item needs to be built (TODO)
-type Item struct {
+// Item is basically just an enum
+type Item int
 
-}
+const (
+
+)
