@@ -12,9 +12,7 @@ import (
 // keyboard and mouse handling
 var InputManager input.Manager
 
-// TheChicken is THE CHICKEN. THE ONE AND ONLY. THE MASTER
-// AND THE EPITOME OF THIS GREAT GAME
-var TheChicken characters.Chicken
+var characterInControl characters.Controllable
 
 func init() {
 	println("adding keyboard listener")
@@ -30,5 +28,20 @@ func Logic(delta float32) {
 
 // Render renders the game.
 func Render() {
+	
+}
+
+type keyListener input.KeyboardListener
+
+func (k *keyListener) KeyDown(key glfw.Key, scancode int, mods glfw.ModifierKey) {
 
 }
+
+func (k *keyListener) KeyUp(key glfw.Key, scancode int, mods glfw.ModifierKey) {
+
+}
+
+func (k *keyListener) KeyRepeat(key glfw.Key, scancode int, mods glfw.ModifierKey) {
+
+}
+

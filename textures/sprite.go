@@ -48,6 +48,17 @@ func NewSprite(spritePath string, frames int, secondsPerFrame float32) (s *Sprit
 	return
 }
 
+// MustNewSprite is like NewSprite, but panics if there's an
+// error
+func MustNewSprite(spritePath string, frames int, secondsPerFrame float32) *Sprite {
+	sprite, err := NewSprite(spritePath, frames, secondsPerFrame)
+	if err != nil {
+		panic(err)
+	}
+
+	return sprite
+}
+
 // Animate animates the Sprite.
 func (s *Sprite) Animate(delta float32) {
     s.currentFrame += delta / s.secondsPerFrame

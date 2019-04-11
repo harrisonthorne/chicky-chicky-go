@@ -3,6 +3,8 @@ package characters
 import (
     "github.com/harrisonthorne/chicky-chicky-go/types"
     "github.com/harrisonthorne/chicky-chicky-go/textures"
+    "github.com/harrisonthorne/chicky-chicky-go/world"
+    "github.com/harrisonthorne/chicky-chicky-go/maths"
 
     "os"
 )
@@ -10,41 +12,29 @@ import (
 var chickenTextures map[CharacterAction]*textures.Sprite
 
 func init() {
-    chickenTextures[ActionNothing] = loadTexture(ActionNothing, "assets/photos/chicken/stand.png")
-    chickenTextures[ActionRun] = loadTexture(ActionRun, "assets/photos/chicken/sprint.png")
-    chickenTextures[ActionWalk] = loadTexture(ActionWalk, "assets/photos/chicken/walk.png")
-    chickenTextures[ActionSquat] = loadTexture(ActionSquat, "assets/photos/chicken/squat.png")
-    chickenTextures[ActionPush] = loadTexture(ActionPush, "assets/photos/chicken/push.png")
-    chickenTextures[ActionFall] = loadTexture(ActionFall, "assets/photos/chicken/fall.png")
-}
-
-// returns the texture, panics if there's an error loading a
-// texture
-func loadTexture(action CharacterAction, path string) (texture uint32) {
-    file, err := os.Open(path)
-    if err != nil {
-        panic(err)
-    }
-
-    texture, err = textures.NewTexture(file)
-    if err != nil {
-        panic(err)
-    }
-
-    return
+    chickenTextures[ActionNothing] = textures.MustNewSprite("assets/photos/chicken/stand.png", 1, 0)
+    chickenTextures[ActionRun] = textures.MustNewSprite("assets/photos/chicken/sprint.png", 4, 0.25)
+    chickenTextures[ActionWalk] = textures.MustNewSprite("assets/photos/chicken/walk.png", 4, 0.5)
+    chickenTextures[ActionSquat] = textures.MustNewSprite("assets/photos/chicken/squat.png", 1, 0)
+    chickenTextures[ActionPush] = textures.MustNewSprite("assets/photos/chicken/push.png", 4, 1)
+    chickenTextures[ActionFall] = textures.MustNewSprite("assets/photos/chicken/fall.png", 2, 0.1)
 }
 
 // Chicken is the main character of this game. we ain't
 // callin it chicky chicky for nothing folks
 type Chicken struct {
-    Character
-    Controllable
-    inventory []types.Item
+	*world.PhysicalObject
+
+	backpack *Backpack
+	sprite *textures.Sprite
+	action CharacterAction
+	direction Direction
+
 }
 
 // NewChicken creates and initializes a new Chicken
 func NewChicken() *Chicken {
-    return nil
+	return &Chicken{sprite: chickenTextures[ActionNothing]}
 }
 
 // Move moves the chicken!
@@ -58,12 +48,14 @@ func (c *Chicken) Move(direction Direction, super bool)  {
 }
 
 // Jump jumps the chicken
-func (c *Chicken) Jump() {
-    // TODO
+func (c *Chicken) Jump(super bool) {
+	if c.Hitbox != nil {
+		c.ApplyForce(maths.Vec2{0, 6})
+	}
 }
 
-// Squat squats the chicken
-func (c *Chicken) Squat() {
+// Down squats the chicken
+func (c *Chicken) Down(super bool) {
     c.Stop()
     c.action = ActionSquat
 }
@@ -93,5 +85,5 @@ func (c *Chicken) Animate(delta float32) {
 
 // Render renders the chicken onto the screen
 func (c *Chicken) Render() {
-
+	
 }
