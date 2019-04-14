@@ -54,6 +54,6 @@ func (m Manager) AddKeyboardListener(kl KeyboardListener) {
 // AddMouseListener adds a MouseListener to
 // the Manager. The new MouseListener will be
 // triggered when there is a mouse event.
-// func (m Manager) AddMouseListener(ml MouseListener) {
-// 	m.keyboards = append(m.mice, ml)
-// }
+func (m Manager) AddMouseListener(ml MouseListener) {
+	m.mice = append(m.mice, ml)
+}

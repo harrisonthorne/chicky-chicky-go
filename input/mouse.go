@@ -7,6 +7,7 @@ import (
 // MouseListener listens for mouse input. Its functions are
 // called from glfw's callback.
 type MouseListener interface {
-
+	MouseMove()
+	MouseClick()
 }
 
