@@ -2,22 +2,19 @@ package characters
 
 import (
     "github.com/harrisonthorne/chicky-chicky-go/types"
-    "github.com/harrisonthorne/chicky-chicky-go/textures"
     "github.com/harrisonthorne/chicky-chicky-go/world"
     "github.com/harrisonthorne/chicky-chicky-go/maths"
-
-    "os"
 )
 
-var chickenTextures map[CharacterAction]*textures.Sprite
+var chickenTextures map[CharacterAction]*world.Sprite
 
 func init() {
-    chickenTextures[ActionNothing] = textures.MustNewSprite("assets/photos/chicken/stand.png", 1, 0)
-    chickenTextures[ActionRun] = textures.MustNewSprite("assets/photos/chicken/sprint.png", 4, 0.25)
-    chickenTextures[ActionWalk] = textures.MustNewSprite("assets/photos/chicken/walk.png", 4, 0.5)
-    chickenTextures[ActionSquat] = textures.MustNewSprite("assets/photos/chicken/squat.png", 1, 0)
-    chickenTextures[ActionPush] = textures.MustNewSprite("assets/photos/chicken/push.png", 4, 1)
-    chickenTextures[ActionFall] = textures.MustNewSprite("assets/photos/chicken/fall.png", 2, 0.1)
+    chickenTextures[ActionNothing] = world.MustNewSprite("assets/photos/chicken/stand.png", 1, 0)
+    chickenTextures[ActionRun] = world.MustNewSprite("assets/photos/chicken/sprint.png", 4, 0.25)
+    chickenTextures[ActionWalk] = world.MustNewSprite("assets/photos/chicken/walk.png", 4, 0.5)
+    chickenTextures[ActionSquat] = world.MustNewSprite("assets/photos/chicken/squat.png", 1, 0)
+    chickenTextures[ActionPush] = world.MustNewSprite("assets/photos/chicken/push.png", 4, 1)
+    chickenTextures[ActionFall] = world.MustNewSprite("assets/photos/chicken/fall.png", 2, 0.1)
 }
 
 // Chicken is the main character of this game. we ain't
@@ -26,7 +23,7 @@ type Chicken struct {
 	*world.PhysicalObject
 
 	backpack *Backpack
-	sprite *textures.Sprite
+	sprite *world.Sprite
 	action CharacterAction
 	direction Direction
 
@@ -72,9 +69,9 @@ func (c *Chicken) Hit(with types.Item, power int) []types.Item {
 
 // Kill kills the chicken, dropping its inventory
 func (c *Chicken) Kill() []types.Item {
-    tmp := c.inventory
-    c.inventory = []types.Item{}
-    return tmp
+    tmp := c.backpack
+    c.backpack = new(Backpack)
+    return []types.Item(*tmp)
 }
 
 // Animate moves and calculates sprite frames for the
@@ -85,5 +82,5 @@ func (c *Chicken) Animate(delta float32) {
 
 // Render renders the chicken onto the screen
 func (c *Chicken) Render() {
-	
+	c.sprite.Render()
 }

@@ -1,7 +1,11 @@
-package textures
+package world
 
 import (
 	"os"
+
+	// "github.com/go-gl/gl/v4.1-core/gl"
+	"github.com/harrisonthorne/chicky-chicky-go/utils"
+	"github.com/harrisonthorne/chicky-chicky-go/textures"
 
     mgl "github.com/go-gl/mathgl/mgl32"
 )
@@ -20,9 +24,13 @@ type Sprite struct {
     matrix mgl.Mat4
 }
 
-// TODO: initialize plane vbo
-func init() {
 
+
+// TODO: initialize plane vbo
+var planeVAO, planeVBO uint32
+
+func init() {
+	planeVAO, planeVBO = utils.NewTextureVAO(&planeVertices)
 }
 
 // NewSprite creates a new sprite and returns it
@@ -36,7 +44,7 @@ func NewSprite(spritePath string, frames int, secondsPerFrame float32) (s *Sprit
 	}
 
 	// assign the sprite texture
-	s.texture, err = NewTexture(spriteFile)
+	s.texture, err = textures.NewTexture(spriteFile)
 	if err != nil {
 		return
 	}
@@ -90,4 +98,16 @@ func (s *Sprite) Render() {
 	// - uhh
 	// - ???
 	// - profit
+}
+
+var planeVertices = []float32 {
+	// first triangle
+	-0.5, 0.5, 0, 0, 0,
+	-0.5, -0.5, 0, 0, 1,
+	0.5, -0.5, 0, 1, 1,
+
+	// second triangle
+	-0.5, 0.5, 0, 0, 0,
+	0.5, -0.5, 0, 1, 1,
+	0.5, 0.5, 0, 1, 0,
 }
