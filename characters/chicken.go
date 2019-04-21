@@ -6,9 +6,11 @@ import (
     "github.com/harrisonthorne/chicky-chicky-go/maths"
 )
 
-var chickenTextures map[CharacterAction]*world.Sprite
+var chickenTextures = make(map[CharacterAction]*world.Sprite)
 
-func init() {
+// InitGL initializes OpenGL-specific functionality for the
+// characters package.
+func InitGL() {
     chickenTextures[ActionNothing] = world.MustNewSprite("assets/photos/chicken/stand.png", 1, 0)
     chickenTextures[ActionRun] = world.MustNewSprite("assets/photos/chicken/sprint.png", 4, 0.25)
     chickenTextures[ActionWalk] = world.MustNewSprite("assets/photos/chicken/walk.png", 4, 0.5)
@@ -21,6 +23,7 @@ func init() {
 // callin it chicky chicky for nothing folks
 type Chicken struct {
 	*world.PhysicalObject
+	Character
 
 	backpack *Backpack
 	sprite *world.Sprite
@@ -47,7 +50,7 @@ func (c *Chicken) Move(direction Direction, super bool)  {
 // Jump jumps the chicken
 func (c *Chicken) Jump(super bool) {
 	if c.Hitbox != nil {
-		c.ApplyForce(maths.Vec2{0, 6})
+		c.ApplyForce(maths.Vec2{X: 0, Y: 6})
 	}
 }
 
@@ -63,7 +66,7 @@ func (c *Chicken) Stop() {
 }
 
 // Hit hits the chicken with the Item and power specified.
-func (c *Chicken) Hit(with types.Item, power int) []types.Item {
+func (c *Chicken) Hit(with types.Item, power float32) []types.Item {
     return []types.Item{}
 }
 
@@ -73,6 +76,12 @@ func (c *Chicken) Kill() []types.Item {
     c.backpack = new(Backpack)
     return []types.Item(*tmp)
 }
+
+// // IsAlive returns true if the chicken is alive
+// func (c *Chicken) IsAlive() bool {
+
+// 	return true
+// }
 
 // Animate moves and calculates sprite frames for the
 // Chicken

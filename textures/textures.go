@@ -12,7 +12,7 @@ import (
 
 // NewTexture creates a new texture with the image data in
 // the reader. 
-func NewTexture(reader io.Reader) (texture uint32, err error) {
+func NewTexture(reader io.Reader) (uint32, error) {
 	img, _, err := image.Decode(reader)
 	if err != nil {
 		return 0, err
@@ -24,9 +24,10 @@ func NewTexture(reader io.Reader) (texture uint32, err error) {
 	}
 	draw.Draw(rgba, rgba.Bounds(), img, image.Point{0, 0}, draw.Src)
 
-	gl.GenTextures(1, &texture)
+	texture := new(uint32)
+	gl.GenTextures(1, texture)
 	gl.ActiveTexture(gl.TEXTURE0)
-	gl.BindTexture(gl.TEXTURE_2D, texture)
+	gl.BindTexture(gl.TEXTURE_2D, *texture)
 	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
 	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
 	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
@@ -42,7 +43,7 @@ func NewTexture(reader io.Reader) (texture uint32, err error) {
 		gl.UNSIGNED_BYTE,
 		gl.Ptr(rgba.Pix))
 
-	return texture, nil
+	return *texture, nil
 }
 
 // Bind binds the provided texture for use with OpenGL.

@@ -21,7 +21,7 @@ type Controllable interface {
 }
 
 // TODO
-// // KeyDown handles a ControllableCharacter action when a key
+// // KeyDown handles a Controllable action when a key
 // // is pressed. Implemented from KeyboardListener.
 // func (c *Controllable) KeyDown(key glfw.Key, scancode int, mods glfw.ModifierKey) {
 // 	fmt.Printf("Key down: %v\n", key)
@@ -39,7 +39,7 @@ type Controllable interface {
 // 	}
 // }
 
-// // KeyUp handles a ControllableCharacter action when a key
+// // KeyUp handles a Controllable action when a key
 // // is released. Implemented from KeyboardListener.
 // func (c *Controllable) KeyUp(key glfw.Key, scancode int, mods glfw.ModifierKey) {
 // 	fmt.Printf("Key up: %v\n", key)

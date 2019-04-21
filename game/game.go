@@ -1,47 +1,46 @@
 package game
 
 import (
+	"fmt"
+
 	// "github.com/go-gl/gl/v4.1-core/gl"
-	// "github.com/go-gl/glfw/v3.2/gl"
 	// "github.com/go-gl/mathgl/mgl32"
 	"github.com/harrisonthorne/chicky-chicky-go/characters"
 	"github.com/harrisonthorne/chicky-chicky-go/input"
+	"github.com/go-gl/glfw/v3.2/glfw"
 )
 
-// InputManager is the game's main input manager for
-// keyboard and mouse handling
-var InputManager input.Manager
-
-var characterInControl characters.Controllable
+var characterInControl characters.Character
 
 func init() {
 	println("adding keyboard listener")
-	InputManager.AddKeyboardListener(&TheChicken)
+	input.AddKeyboardListener(&keyListener{})
+	chicken := characters.NewChicken()
+	characterInControl = chicken
 }
 
 // Logic performs logic for the game. This includes movement, physics,
 // clocks, animation, etc
 func Logic(delta float32) {
-	TheChicken.Animate(delta)
 
 }
 
 // Render renders the game.
 func Render() {
-	
+	characterInControl.Render()
 }
 
-type keyListener input.KeyboardListener
+type keyListener struct{}
 
 func (k *keyListener) KeyDown(key glfw.Key, scancode int, mods glfw.ModifierKey) {
-
+	fmt.Printf("%-20s%d\n", "key down:", int(key))
 }
 
 func (k *keyListener) KeyUp(key glfw.Key, scancode int, mods glfw.ModifierKey) {
-
+	fmt.Printf("%-20s%d\n", "key up:", int(key))
 }
 
 func (k *keyListener) KeyRepeat(key glfw.Key, scancode int, mods glfw.ModifierKey) {
-
+	fmt.Printf("%-20s%d\n", "key repeat:", int(key))
 }
 

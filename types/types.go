@@ -38,3 +38,9 @@ type Killable interface {
 	// Returns true if the Killable is still alive
 	IsAlive() bool
 }
+
+// Renderable is implemented by anything that can be
+// rendered.
+type Renderable interface {
+	Render() // TODO: what parameters will this need?
+}

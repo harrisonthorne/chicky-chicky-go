@@ -29,7 +29,9 @@ type Sprite struct {
 // TODO: initialize plane vbo
 var planeVAO, planeVBO uint32
 
-func init() {
+// InitGL initializes OpenGL-specific functionality for the
+// blocks package.
+func InitGL() {
 	planeVAO, planeVBO = utils.NewTextureVAO(&planeVertices)
 }
 

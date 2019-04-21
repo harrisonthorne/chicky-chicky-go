@@ -12,7 +12,8 @@ func GetTextureProgram() uint32 {
 	return textureProgram
 }
 
-func init() {
+// InitGL initializes the OpenGL shader program
+func InitGL() {
 	var err error
 	textureProgram, err = shaders.NewProgram(vertexTextureShader, fragmentTextureShader)
 	if err != nil {

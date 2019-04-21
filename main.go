@@ -1,7 +1,12 @@
 package main
 
 import (
+	"github.com/harrisonthorne/chicky-chicky-go/blocks"
+	"github.com/harrisonthorne/chicky-chicky-go/characters"
 	"github.com/harrisonthorne/chicky-chicky-go/game"
+	"github.com/harrisonthorne/chicky-chicky-go/input"
+	"github.com/harrisonthorne/chicky-chicky-go/textures"
+	"github.com/harrisonthorne/chicky-chicky-go/world"
 
 	"fmt"
 	"go/build"
@@ -51,12 +56,14 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	window.SetKeyCallback(game.InputManager.KeyCallback)
+	window.SetKeyCallback(input.KeyCallback)
 	window.MakeContextCurrent()
 
 	if err := gl.Init(); err != nil {
 		panic(err)
 	}
+
+	initPackageGL()
 
 	version := gl.GoStr(gl.GetString(gl.VERSION))
 	fmt.Println("OpenGL version", version)
@@ -76,4 +83,11 @@ func main() {
 		window.SwapBuffers()
 		glfw.PollEvents()
 	}
+}
+
+func initPackageGL() {
+	characters.InitGL()
+	blocks.InitGL()
+	textures.InitGL()
+	world.InitGL()
 }
