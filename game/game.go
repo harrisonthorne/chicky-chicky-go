@@ -3,17 +3,16 @@ package game
 import (
 	"fmt"
 
-	// "github.com/go-gl/gl/v4.1-core/gl"
-	// "github.com/go-gl/mathgl/mgl32"
 	"github.com/harrisonthorne/chicky-chicky-go/characters"
 	"github.com/harrisonthorne/chicky-chicky-go/input"
+	"github.com/harrisonthorne/chicky-chicky-go/maths"
+	"github.com/harrisonthorne/chicky-chicky-go/render"
 	"github.com/go-gl/glfw/v3.2/glfw"
 )
 
 var characterInControl characters.Character
 
 func init() {
-	println("adding keyboard listener")
 	input.AddKeyboardListener(&keyListener{})
 	chicken := characters.NewChicken()
 	characterInControl = chicken
@@ -25,9 +24,11 @@ func Logic(delta float32) {
 
 }
 
+var cam = render.NewCamera(maths.Vec3{X:0, Y:0, Z:10}, 70, 9.0/16)
+
 // Render renders the game.
 func Render() {
-	characterInControl.Render()
+	characterInControl.Render(cam)
 }
 
 type keyListener struct{}

@@ -1,14 +1,13 @@
 package main
 
 import (
-	"github.com/harrisonthorne/chicky-chicky-go/blocks"
-	"github.com/harrisonthorne/chicky-chicky-go/characters"
 	"github.com/harrisonthorne/chicky-chicky-go/game"
 	"github.com/harrisonthorne/chicky-chicky-go/input"
-	"github.com/harrisonthorne/chicky-chicky-go/textures"
-	"github.com/harrisonthorne/chicky-chicky-go/world"
+	"github.com/harrisonthorne/chicky-chicky-go/blocks"
+	"github.com/harrisonthorne/chicky-chicky-go/characters"
+	"github.com/harrisonthorne/chicky-chicky-go/sprite"
+	"github.com/harrisonthorne/chicky-chicky-go/render"
 
-	"fmt"
 	"go/build"
 	"log"
 	"os"
@@ -20,8 +19,8 @@ import (
 )
 
 func init() {
-    // we have to change the working directory of chicky
-    // chicky to its package path for imports and such
+	// we have to change the working directory of chicky
+	// chicky to its package path for imports and such
 	p, err := build.Import("github.com/harrisonthorne/chicky-chicky-go", "", build.FindOnly)
 	if err != nil {
 		panic(err)
@@ -35,40 +34,19 @@ func init() {
 	if err != nil {
 		log.Panicln("os.Chdir:", err)
 	}
+
+	startGLFW()
 }
 
 func main() {
-	// I believe this ensures that our program always runs on the same process
-	runtime.LockOSThread()
+	initPackagesGL()
 
-	if err := glfw.Init(); err != nil {
-		log.Fatalln("failed to initialize glfw: ", err)
-	}
 	defer glfw.Terminate()
 
-	glfw.WindowHint(glfw.Resizable, glfw.True)
-	glfw.WindowHint(glfw.ContextVersionMajor, 4)
-	glfw.WindowHint(glfw.ContextVersionMinor, 1)
-	glfw.WindowHint(glfw.OpenGLProfile, glfw.OpenGLCoreProfile)
-	glfw.WindowHint(glfw.OpenGLForwardCompatible, glfw.True)
-
-	window, err := glfw.CreateWindow(800, 600, "Chicky Chicky Go", nil, nil)
-	if err != nil {
-		panic(err)
-	}
-	window.SetKeyCallback(input.KeyCallback)
-	window.MakeContextCurrent()
-
-	if err := gl.Init(); err != nil {
-		panic(err)
-	}
-
-	initPackageGL()
-
-	version := gl.GoStr(gl.GetString(gl.VERSION))
-	fmt.Println("OpenGL version", version)
-
 	gl.ClearColor(0, 0.5, 0.7, 1)
+	gl.Enable(gl.DEPTH_TEST)
+	// gl.Enable(gl.TEXTURE_2D)
+	gl.DepthFunc(gl.LESS)
 
 	lastUpdate := time.Now()
 
@@ -85,9 +63,38 @@ func main() {
 	}
 }
 
-func initPackageGL() {
-	characters.InitGL()
+var window *glfw.Window
+
+func startGLFW() {
+	// I believe this ensures that our program always runs on the same process
+	runtime.LockOSThread()
+
+	if err := glfw.Init(); err != nil {
+		log.Fatalln("failed to initialize glfw: ", err)
+	}
+
+	glfw.WindowHint(glfw.Resizable, glfw.True)
+	glfw.WindowHint(glfw.ContextVersionMajor, 4)
+	glfw.WindowHint(glfw.ContextVersionMinor, 1)
+	glfw.WindowHint(glfw.OpenGLProfile, glfw.OpenGLCoreProfile)
+	glfw.WindowHint(glfw.OpenGLForwardCompatible, glfw.True)
+
+	var err error
+	window, err = glfw.CreateWindow(800, 600, "Chicky Chicky Go", nil, nil)
+	if err != nil {
+		panic(err)
+	}
+	window.SetKeyCallback(input.KeyCallback)
+	window.MakeContextCurrent()
+
+	if err := gl.Init(); err != nil {
+		panic(err)
+	}
+}
+
+func initPackagesGL() {
+	render.InitGL()
 	blocks.InitGL()
-	textures.InitGL()
-	world.InitGL()
+	characters.InitGL()
+	sprite.InitGL()
 }

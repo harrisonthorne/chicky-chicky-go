@@ -1,14 +1,55 @@
-package shaders
+package render
 
 import (
 	"fmt"
-	"strings"
-
 	"github.com/go-gl/gl/v4.1-core/gl"
+	"strings"
 )
 
-// NewProgram creates and returns a new program
-func NewProgram(vertexShaderStr, fragmentShaderStr string) (program uint32, err error) {
+// Program is an OpenGL program
+type Program struct {
+	id                                 uint32
+    Locations ProgramAttrLocations
+}
+
+// ProgramAttrNames holds names for program attributes
+type ProgramAttrNames struct {
+    PerspectiveMatrix string
+    CameraMatrix string
+    ModelMatrix string
+    InVertex string
+    OutVertex string
+    InColor string
+    OutColor string
+    VertTexCoord string
+    FragTexCoord string
+    TexSampler string
+}
+
+// ID returns the program's OpenGL ID
+func (p Program) ID() uint32 {
+    return p.id
+}
+
+// NewProgram creates and returns a new OpenGL program.
+func NewProgram(vertexShaderSource, fragmentShaderSource string, names ProgramAttrNames) (p *Program, err error) {
+	p = new(Program)
+
+	p.id, err = compileProgram(vertexShaderSource, fragmentShaderSource)
+    if err != nil {
+        return
+    }
+
+	p.Locations.perspectiveMatrix = gl.GetUniformLocation(p.id, gl.Str(names.PerspectiveMatrix+"\x00"))
+	p.Locations.cameraMatrix = gl.GetUniformLocation(p.id, gl.Str(names.CameraMatrix+"\x00"))
+	p.Locations.modelMatrix = gl.GetUniformLocation(p.id, gl.Str(names.ModelMatrix+"\x00"))
+
+	gl.BindFragDataLocation(p.id, 0, gl.Str(names.OutColor+"\x00"))
+
+    return
+}
+
+func compileProgram(vertexShaderStr, fragmentShaderStr string) (program uint32, err error) {
 	vertexShader, err := compileShader(vertexShaderStr, gl.VERTEX_SHADER)
 	if err != nil {
 		return

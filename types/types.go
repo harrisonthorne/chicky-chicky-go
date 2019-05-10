@@ -1,5 +1,9 @@
 package types
 
+import (
+	"github.com/harrisonthorne/chicky-chicky-go/render"
+)
+
 // Animatable is an interface that can be added to objects
 // that animate. It calls its Animate(delta) method during
 // every logical loop to compute whether or not the
@@ -42,5 +46,5 @@ type Killable interface {
 // Renderable is implemented by anything that can be
 // rendered.
 type Renderable interface {
-	Render() // TODO: what parameters will this need?
+	Render(c *render.Camera) // TODO: what parameters will this need?
 }
