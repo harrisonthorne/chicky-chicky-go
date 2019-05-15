@@ -22,7 +22,7 @@ func New(reader io.Reader) (uint32, error) {
 	if rgba.Stride != rgba.Rect.Size().X*4 {
 		return 0, fmt.Errorf("unsupported stride")
 	}
-	draw.Draw(rgba, rgba.Bounds(), img, image.Point{0, 0}, draw.Src)
+	draw.Draw(rgba, rgba.Bounds(), img, image.Point{0, 0}, draw.Over)
 
 	var texture uint32
 	gl.GenTextures(1, &texture)

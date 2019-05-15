@@ -12,7 +12,11 @@ var chickenTextures = make(map[CharacterAction]*sprite.Sprite)
 
 // InitGL initializes chicken sprites
 func InitGL() {
+	chickenHeight := float32(0.5)		// in meters
+	chickenWidth := float32(0.5*13/12)	// in meters
+
     chickenTextures[ActionNothing] = sprite.MustNew("assets/photos/chicken/stand.png", 1, 0)
+	chickenTextures[ActionNothing].SetSize(chickenHeight, chickenWidth)
     chickenTextures[ActionRun] = sprite.MustNew("assets/photos/chicken/sprint.png", 4, 0.25)
     chickenTextures[ActionWalk] = sprite.MustNew("assets/photos/chicken/walk.png", 4, 0.5)
     chickenTextures[ActionSquat] = sprite.MustNew("assets/photos/chicken/squat.png", 1, 0)

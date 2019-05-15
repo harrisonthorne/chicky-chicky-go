@@ -61,7 +61,11 @@ in vec2 ` + textureShaderNames.FragTexCoord + `;
 out vec4 ` + textureShaderNames.OutColor + `;
 
 void main() {
-    ` + textureShaderNames.OutColor + ` = texture(` + textureShaderNames.TexSampler + `, ` + textureShaderNames.FragTexCoord + `);
+    vec4 texColor = texture(` + textureShaderNames.TexSampler + `, ` + textureShaderNames.FragTexCoord + `);
+    if (texColor.a < 0.05)
+        discard;
+
+    ` + textureShaderNames.OutColor + ` = texColor;
 }
 ` + "\x00"
 

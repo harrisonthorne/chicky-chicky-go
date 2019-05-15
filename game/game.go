@@ -24,7 +24,7 @@ func Logic(delta float32) {
 
 }
 
-var cam = render.NewCamera(maths.Vec3{X:0, Y:0, Z:10}, 70, 9.0/16)
+var cam = render.NewCamera(maths.Vec3{X:0, Y:0, Z:10}, 70, 800.0/600)
 
 // Render renders the game.
 func Render() {

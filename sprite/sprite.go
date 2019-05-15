@@ -24,6 +24,8 @@ type Sprite struct {
 	sizeMatrix     mgl.Mat4
 	positionMatrix mgl.Mat4
 	matrix         mgl.Mat4
+
+    pixelWidth, pixelHeight int
 }
 
 // TODO: initialize sprite plane vbo
@@ -94,6 +96,14 @@ func (s *Sprite) SetSize(width, height float32) {
 	s.updateMatrix()
 }
 
+func (s *Sprite) PixelWidth() int {
+    return s.pixelWidth
+}
+
+func (s *Sprite) PixelHeight() int {
+    return s.pixelHeight
+}
+
 // SetPosition sets the position of the sprite.
 func (s *Sprite) SetPosition(x, y, z float32) {
 	s.positionMatrix = mgl.Translate3D(x, y, z)
@@ -115,11 +125,11 @@ func (s *Sprite) Render(c *render.Camera) {
 	gl.UniformMatrix4fv(modelAttrLocation, 1, false, &s.matrix[0])
 
 	textureUniform := render.TextureProgram().Locations.TextureLocation()
-	gl.Uniform1i(textureUniform, 0)
-
-	gl.BindVertexArray(planeVAO)
+	gl.Uniform1i(textureUniform, 0) // number bound here must match the active texture
 	gl.ActiveTexture(gl.TEXTURE0)
 	gl.BindTexture(gl.TEXTURE_2D, s.texture)
+
+	gl.BindVertexArray(planeVAO)
 	gl.DrawArrays(gl.TRIANGLES, 0, 2*3)
 }
 
