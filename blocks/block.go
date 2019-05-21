@@ -10,7 +10,7 @@ import (
 // Block block block block block block block block
 type Block interface {
 	types.Killable
-	Render()
+	types.Renderable
 }
 
 var cubeVAO, cubeVBO uint32

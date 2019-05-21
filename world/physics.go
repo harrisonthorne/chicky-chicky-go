@@ -5,6 +5,7 @@ import (
 	"math"
 )
 
+// fixes a collision given a breach value
 func fix(p *PhysicalObject, breach maths.Vec2) {
 	if p.velocity.X == 0 {
 		p.Hitbox.CenterPos.Y += -breach.Y

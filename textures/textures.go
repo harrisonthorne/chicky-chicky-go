@@ -10,10 +10,10 @@ import (
 	"github.com/go-gl/gl/v4.1-core/gl"
 )
 
-// New creates a new texture with the image data in
+// New creates a new texture with the image data from
 // the reader. 
-func New(reader io.Reader) (uint32, error) {
-	img, _, err := image.Decode(reader)
+func New(imageReader io.Reader) (uint32, error) {
+	img, _, err := image.Decode(imageReader)
 	if err != nil {
 		return 0, err
 	}

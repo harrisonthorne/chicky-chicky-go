@@ -1,4 +1,4 @@
-package types
+package world
 
 import (
 	"github.com/harrisonthorne/chicky-chicky-go/render"
@@ -14,10 +14,11 @@ import (
 // 	Animate(delta float32)
 // }
 
-// Ignitable can be added to objects that can be ignited.
+// Flammable can be added to objects that can be ignited.
 // Such objects can burn any objects with the Burnable
 // interface attached.
-type Ignitable interface {
+type Flammable interface {
+    Ignite()
 	Ignited() bool
 }
 
@@ -33,18 +34,28 @@ type Burnable interface {
 type Killable interface {
 	// Called when the Killable is hit. Returns any items that
 	// the Killable might drop when hit.
-	Hit(with Item, power float32) []Item
+	Hit(with interface{}, power float32) []Item
 
 	// Called when the Killable should be killed. Returns any
 	// items that might be dropped with the Killable dies.
 	Kill() []Item
 
-	// Returns true if the Killable is still alive
+	// Returns true if the Killable is still alive. A
+	// Killable can still be alive even if it has no health
+	// left. Any Killables determined to be dead are removed
+	// from the world
 	IsAlive() bool
+
+	// Returns the number of health points left on the
+	// Killable
+	HealthLeft() float32
+
+	// Returns the lifespan of health points on the Killable
+	Lifespan() float32
 }
 
 // Renderable is implemented by anything that can be
 // rendered.
 type Renderable interface {
-	Render(c *render.Camera) // TODO: what parameters will this need?
+	Render(c *render.Camera)
 }
