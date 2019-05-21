@@ -10,14 +10,14 @@ type Item interface {
 type Tool interface {
 	Item
 	ToolType() ToolType
-	Degrade(health int)
+	Degrade(by float32)
 }
 
 // Weapon is an item (more of a Tool) that may have
 // additional special features in the future
 type Weapon interface {
 	Item
-	Degrade(health int)
+	Degrade(by float32)
 }
 
 // ToolType is an enum for determining types of tools
