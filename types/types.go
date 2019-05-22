@@ -1,7 +1,8 @@
-package world
+package types
 
 import (
 	"github.com/harrisonthorne/chicky-chicky-go/render"
+	"github.com/harrisonthorne/chicky-chicky-go/items"
 )
 
 // Animatable is an interface that can be added to objects
@@ -34,11 +35,11 @@ type Burnable interface {
 type Killable interface {
 	// Called when the Killable is hit. Returns any items that
 	// the Killable might drop when hit.
-	Hit(with interface{}, power float32) []Item
+	Hit(with interface{}, power float32) []items.Item
 
 	// Called when the Killable should be killed. Returns any
 	// items that might be dropped with the Killable dies.
-	Kill() []Item
+	Kill() []items.Item
 
 	// Returns true if the Killable is still alive. A
 	// Killable can still be alive even if it has no health

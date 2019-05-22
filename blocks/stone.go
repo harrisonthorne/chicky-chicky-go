@@ -1,12 +1,15 @@
 package blocks
 
-// GrassBlock is a block of dirt with a green topping of
-// grass
-type GrassBlock struct {
+// StoneBlock is a block of rock
+type StoneBlock struct {
+    Block
     lifespan, health float32
 }
 
-// NewGrassBlock creates a new GrassBlock and returns it
-func NewGrassBlock() *GrassBlock {
-	return nil
+// NewStoneBlock creates a new GrassBlock and returns it
+func NewStoneBlock() *StoneBlock {
+	return &StoneBlock{
+        lifespan: 100,
+        health: 100,
+    }
 }

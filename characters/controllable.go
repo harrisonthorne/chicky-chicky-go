@@ -2,7 +2,7 @@ package characters
 
 import (
 	"github.com/harrisonthorne/chicky-chicky-go/maths"
-	"github.com/harrisonthorne/chicky-chicky-go/types"
+	"github.com/harrisonthorne/chicky-chicky-go/items"
 )
 
 // Controllable is a type that can be controlled using the
@@ -17,7 +17,7 @@ type Controllable interface {
     // Initiates an attack by the Controllable. Returns
     // whatever the Controllable might be holding, the
     // attack power, and where the Controllable was aiming
-	Attack() (with *types.Item, power float32, at maths.Vec2)
+	Attack() (with *items.Item, power float32, at maths.Vec2)
 }
 
 // TODO

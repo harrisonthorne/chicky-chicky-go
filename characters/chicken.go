@@ -1,7 +1,7 @@
 package characters
 
 import (
-    "github.com/harrisonthorne/chicky-chicky-go/types"
+    "github.com/harrisonthorne/chicky-chicky-go/items"
     "github.com/harrisonthorne/chicky-chicky-go/world"
     "github.com/harrisonthorne/chicky-chicky-go/maths"
     "github.com/harrisonthorne/chicky-chicky-go/sprite"
@@ -69,15 +69,15 @@ func (c *Chicken) Stop() {
 }
 
 // Hit hits the chicken with the Item and power specified.
-func (c *Chicken) Hit(with types.Item, power float32) []types.Item {
-    return []types.Item{}
+func (c *Chicken) Hit(with interface{}, power float32) []items.Item {
+    return nil
 }
 
 // Kill kills the chicken, dropping its inventory
-func (c *Chicken) Kill() []types.Item {
+func (c *Chicken) Kill() []items.Item {
     tmp := c.backpack
-	c.backpack = make([]types.Item, 1)
-    return []types.Item(tmp)
+	c.backpack = make([]items.Item, 1)
+    return []items.Item(tmp)
 }
 
 // IsAlive returns true if the chicken is alive

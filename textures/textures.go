@@ -1,17 +1,47 @@
 package textures
 
 import (
-    "io"
-    "fmt"
-    "image"
-    "image/draw"
-    _ "image/png" // imported for png support for textures
+	"fmt"
+	"image"
+	"image/draw"
+	_ "image/png" // imported for png support for textures
+	"io"
+	"os"
 
 	"github.com/go-gl/gl/v4.1-core/gl"
 )
 
+// LazyTexture will dynamically load a texture the instant
+// its ID is attempted to be accessed.
+type LazyTexture struct {
+	path string
+	id   uint32
+}
+
+func NewLazyTexture(imagePath string) *LazyTexture {
+	return &LazyTexture{path: imagePath}
+}
+
+// ID returns the texture ID, creating the texture if
+// necessary
+func (l *LazyTexture) ID() uint32 {
+	if l.id == 0 {
+		imageFile, err := os.Open(l.path)
+		if err != nil {
+			return 0
+		}
+
+		l.id, err = New(imageFile)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	return l.id
+}
+
 // New creates a new texture with the image data from
-// the reader. 
+// the reader.
 func New(imageReader io.Reader) (uint32, error) {
 	img, _, err := image.Decode(imageReader)
 	if err != nil {
@@ -48,5 +78,5 @@ func New(imageReader io.Reader) (uint32, error) {
 
 // Bind binds the provided texture for use with OpenGL.
 func Bind(texture uint32) {
-    gl.BindTexture(gl.TEXTURE_2D, texture)
+	gl.BindTexture(gl.TEXTURE_2D, texture)
 }

@@ -20,7 +20,7 @@ type Camera struct {
 func NewCamera(position maths.Vec3, fov float32, aspectRatio float32) *Camera {
 	c := &Camera{position: position, fov: fov, aspectRatio: aspectRatio}
 	c.UpdatePerspectiveMatrix()
-    c.orientation = mgl.LookAt(0, 0, 3, 0, 0, 0, 0, 1, 0)
+    c.orientation = mgl.LookAt(position.X, position.Y, position.Z, 0, 0, 0, 0, 1, 0)
 	return c
 }
 
