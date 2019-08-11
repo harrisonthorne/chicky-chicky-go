@@ -6,14 +6,12 @@ import (
 )
 
 const (
-    plotDepth = 64
-    plotHeight = 64
-    plotWidth = 64
+    chunkSize = 64
 )
 
 // Chunk contains a three-dimensional array of blocks
 type Chunk struct {
-	blocks [plotHeight][plotWidth][plotDepth]*Block
+	blocks [chunkSize][chunkSize][chunkSize]*Block
 	ordinal int
     matrix *mgl.Mat4
 }
@@ -28,7 +26,7 @@ func NewChunk(ordinal int) *Chunk {
                 block := NewGrassBlock()
                 x, y, z := float32(i)*blockWidth, float32(j)*blockWidth, float32(-k)*blockWidth
                 block.SetMatrix(mgl.Ident4().Mul4(mgl.Translate3D(x, y, z)))
-                p.Set(i, j, k, &block)
+                p.Set(i, j, k, block)
             }
         }
     }
@@ -41,7 +39,7 @@ func (p *Chunk) At(i, j, k int) *Block {
 }
 
 // Set sets the block at the array index
-func (p *Chunk) Set(i, j, k int, b *Block) {
+func (p *Chunk) Set(i, j, k int, b Block) {
     p.blocks[i][j][k] = &b
 }
 
