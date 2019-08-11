@@ -1,59 +1,61 @@
 package blocks
 
+const halfBW = blockWidth / 2
+
 // TODO fix uv coordinates
 var cubeVertices = []float32{
 	//  X, Y, Z, U, V
 	// Bottom
-	-0.25, -0.25, -0.25, 0.5, 0.5,
-	0.25, -0.25, -0.25, 1.0, 0.5,
-	-0.25, -0.25, 0.25, 0.5, 0.0,
+	-halfBW, -halfBW, -halfBW, 0.5, 0.5,
+	halfBW, -halfBW, -halfBW, 1.0, 0.5,
+	-halfBW, -halfBW, halfBW, 0.5, 0.0,
 
-	0.25, -0.25, -0.25, 1.0, 0.5,
-	0.25, -0.25, 0.25, 1.0, 0.0,
-	-0.25, -0.25, 0.25, 0.5, 0.0,
+	halfBW, -halfBW, -halfBW, 1.0, 0.5,
+	halfBW, -halfBW, halfBW, 1.0, 0.0,
+	-halfBW, -halfBW, halfBW, 0.5, 0.0,
 
 	// Top
-	-0.25, 0.25, -0.25, 0.0, 0.5,
-	-0.25, 0.25, 0.25, 0.0, 0.0,
-	0.25, 0.25, -0.25, 0.5, 0.5,
+	-halfBW, halfBW, -halfBW, 0.0, 0.5,
+	-halfBW, halfBW, halfBW, 0.0, 0.0,
+	halfBW, halfBW, -halfBW, 0.5, 0.5,
 
-	0.25, 0.25, -0.25, 0.5, 0.5,
-	-0.25, 0.25, 0.25, 0.0, 0.0,
-	0.25, 0.25, 0.25, 0.5, 0.0,
+	halfBW, halfBW, -halfBW, 0.5, 0.5,
+	-halfBW, halfBW, halfBW, 0.0, 0.0,
+	halfBW, halfBW, halfBW, 0.5, 0.0,
 
 	// Front
-	-0.25, -0.25, 0.25, 0.0, 1.0,
-	0.25, -0.25, 0.25, 0.5, 1.0,
-	-0.25, 0.25, 0.25, 0.0, 0.5,
+	-halfBW, -halfBW, halfBW, 0.0, 1.0,
+	halfBW, -halfBW, halfBW, 0.5, 1.0,
+	-halfBW, halfBW, halfBW, 0.0, 0.5,
 
-	0.25, -0.25, 0.25, 0.5, 1.0,
-	0.25, 0.25, 0.25, 0.5, 0.5,
-	-0.25, 0.25, 0.25, 0.0, 0.5,
+	halfBW, -halfBW, halfBW, 0.5, 1.0,
+	halfBW, halfBW, halfBW, 0.5, 0.5,
+	-halfBW, halfBW, halfBW, 0.0, 0.5,
 
 	// Back
-	-0.25, -0.25, -0.25, 0.5, 1.0,
-	-0.25, 0.25, -0.25, 0.5, 0.5,
-	0.25, -0.25, -0.25, 0.0, 1.0,
+	-halfBW, -halfBW, -halfBW, 0.5, 1.0,
+	-halfBW, halfBW, -halfBW, 0.5, 0.5,
+	halfBW, -halfBW, -halfBW, 0.0, 1.0,
 
-	0.25, -0.25, -0.25, 0.0, 1.0,
-	-0.25, 0.25, -0.25, 0.5, 0.5,
-	0.25, 0.25, -0.25, 0.0, 0.5,
+	halfBW, -halfBW, -halfBW, 0.0, 1.0,
+	-halfBW, halfBW, -halfBW, 0.5, 0.5,
+	halfBW, halfBW, -halfBW, 0.0, 0.5,
 
 	// Left
-	-0.25, -0.25, 0.25, 1.0, 1.0,
-	-0.25, 0.25, -0.25, 0.5, 0.5,
-	-0.25, -0.25, -0.25, 0.5, 1.0,
+	-halfBW, -halfBW, halfBW, 1.0, 1.0,
+	-halfBW, halfBW, -halfBW, 0.5, 0.5,
+	-halfBW, -halfBW, -halfBW, 0.5, 1.0,
 
-	-0.25, -0.25, 0.25, 1.0, 1.0,
-	-0.25, 0.25, 0.25, 1.0, 0.5,
-	-0.25, 0.25, -0.25, 0.5, 0.5,
+	-halfBW, -halfBW, halfBW, 1.0, 1.0,
+	-halfBW, halfBW, halfBW, 1.0, 0.5,
+	-halfBW, halfBW, -halfBW, 0.5, 0.5,
 
 	// Right
-	0.25, -0.25, 0.25, 0.5, 1.0,
-	0.25, -0.25, -0.25, 1.0, 1.0,
-	0.25, 0.25, -0.25, 1.0, 0.5,
+	halfBW, -halfBW, halfBW, 0.5, 1.0,
+	halfBW, -halfBW, -halfBW, 1.0, 1.0,
+	halfBW, halfBW, -halfBW, 1.0, 0.5,
 
-	0.25, -0.25, 0.25, 0.5, 1.0,
-	0.25, 0.25, -0.25, 1.0, 0.5,
-	0.25, 0.25, 0.25, 0.5, 0.5,
+	halfBW, -halfBW, halfBW, 0.5, 1.0,
+	halfBW, halfBW, -halfBW, 1.0, 0.5,
+	halfBW, halfBW, halfBW, 0.5, 0.5,
 }
