@@ -13,8 +13,8 @@ const Gravity = -9.81
 type PhysicalObject struct {
 	frozen bool // if true, the PhysicalObject will not move
 
-	velocity     maths.Vec2
-	acceleration maths.Vec2
+	velocity     maths.Vec3
+	acceleration maths.Vec3
 	mass         float32 // In kilograms.
 
 	onGround    bool
@@ -29,16 +29,20 @@ type PhysicalObject struct {
 	OnPush       func()
 	OnCeilingHit func()
 
-	Hitbox *maths.AABB // Hitbox for collision calculation, but not kill calculation
+	Hitbox *maths.AABC // Hitbox for collision calculation, but not kill calculation
 }
 
 // Position returns the PhysicalObject's position
-func (p *PhysicalObject) Position() maths.Vec2 {
+func (p *PhysicalObject) Position() maths.Vec3 {
 	return p.Hitbox.CenterPos
 }
 
+func (p *PhysicalObject) AddPosition(v2 maths.Vec3) {
+	p.Hitbox.CenterPos.Add(v2)
+}
+
 // SetPosition modifies the position of the PhysicalObject.
-func (p *PhysicalObject) SetPosition(pos maths.Vec2) {
+func (p *PhysicalObject) SetPosition(pos maths.Vec3) {
 	p.Hitbox.CenterPos = pos
 }
 
@@ -64,15 +68,17 @@ func (p *PhysicalObject) Physics(delta float32) {
 	// reset acceleration
 	p.acceleration.X = 0
 	p.acceleration.Y = 0
+	p.acceleration.Z = 0
 }
 
 // ApplyForce applies a force, in Newtons, to the
 // PhysicalObject. This is the only way to move a
 // PhysicalObject in the game; velocity and acceleration are
 // not publicly accessible.
-func (p *PhysicalObject) ApplyForce(newtons maths.Vec2) {
+func (p *PhysicalObject) ApplyForce(newtons maths.Vec3) {
 	p.acceleration.X += newtons.X / p.mass
 	p.acceleration.Y += newtons.Y / p.mass
+	p.acceleration.Z += newtons.Z / p.mass
 }
 
 // StopMotion immediately stops the motion of the
@@ -81,8 +87,10 @@ func (p *PhysicalObject) ApplyForce(newtons maths.Vec2) {
 func (p *PhysicalObject) StopMotion() {
 	p.velocity.X = 0
 	p.velocity.Y = 0
+	p.velocity.Z = 0
 	p.acceleration.X = 0
 	p.acceleration.Y = 0
+	p.acceleration.Z = 0
 }
 
 // CollidesWith returns whether or not the Collider
@@ -127,20 +135,20 @@ func (p *PhysicalObject) FixCollision(other *PhysicalObject) {
 		// we've fixed the objects:
 		breach = calculateBreach(p, other)
 
-		// smaller breach determines which side the
-		if math.Abs(float64(breach.X)) < math.Abs(float64(breach.Y)) {
-			// object is on left or right, so set x
-			// velocity to zero
+		// smallest breach determines which side the object is on
+		minBreach := float32(math.Min(float64(breach.X), math.Min(float64(breach.Y), float64(breach.Z))))
+		switch minBreach {
+		case breach.X:
 			p.velocity.X = 0
-		} else {
-			// object is on top or bottom, so set y
-			// velocity to zero
+		case breach.Y:
 			p.velocity.Y = 0
+		case breach.Z:
+			p.velocity.Z = 0
 		}
 	}
 }
 
-func calculateBreach(moving, static *PhysicalObject) (breach maths.Vec2) {
+func calculateBreach(moving, static *PhysicalObject) (breach maths.Vec3) {
 	// breach really depends on which direction the moving
 	// PhysicalObject is travelling
 
@@ -158,6 +166,14 @@ func calculateBreach(moving, static *PhysicalObject) (breach maths.Vec2) {
 		breach.Y = moving.Hitbox.CenterPos.Y + moving.Hitbox.HalfSize.Y - (static.Hitbox.CenterPos.Y - static.Hitbox.HalfSize.Y)
 	case moving.velocity.Y < 0:
 		breach.Y = moving.Hitbox.CenterPos.Y - moving.Hitbox.HalfSize.Y - (static.Hitbox.CenterPos.Y + static.Hitbox.HalfSize.Y)
+	}
+
+	// calculate Z
+	switch {
+	case moving.velocity.Z > 0:
+		breach.Z = moving.Hitbox.CenterPos.Z + moving.Hitbox.HalfSize.Z - (static.Hitbox.CenterPos.Z - static.Hitbox.HalfSize.Z)
+	case moving.velocity.Z < 0:
+		breach.Z = moving.Hitbox.CenterPos.Z - moving.Hitbox.HalfSize.Z - (static.Hitbox.CenterPos.Z + static.Hitbox.HalfSize.Z)
 	}
 	return
 }

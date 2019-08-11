@@ -36,3 +36,10 @@ func (v *Vec3) Add(v2 Vec3) {
     v.Y += v2.Y
     v.Z += v2.Z
 }
+
+// Scale scales the vector
+func (v *Vec3) Scale(scalar float32) {
+    v.X *= scalar
+    v.Y *= scalar
+    v.Z *= scalar
+}
