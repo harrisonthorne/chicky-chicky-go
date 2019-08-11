@@ -9,10 +9,19 @@ import (
 	mgl "github.com/go-gl/mathgl/mgl32"
 )
 
+const blockWidth = 0.5 // in meters
+
+// Mat4 is a convenience type, a copy of mgl.Mat4
+type Mat4 = mgl.Mat4
+
 // Block block block block block block block block
 type Block interface {
 	types.Killable
 	types.Renderable
+
+	Matrix() *Mat4
+	SetMatrix(mat Mat4)
+
 	SetGridPos(row, col int)
 	GridPos() (row, col int)
 }
@@ -27,22 +36,14 @@ func InitGL() {
 
 var rotation mgl.Vec3
 
-func renderBlock(c *render.Camera, texture uint32) {
-	rotation[0] += 0.01
-	rotation[1] += 0.02
-	rotation[2] += 0.03
-	mat := mgl.HomogRotate3DY(rotation[2])
-	// mat = mat.Mul4(mgl.HomogRotate3DY(rotation[1]))
-	// mat = mat.Mul4(mgl.HomogRotate3DZ(rotation[2]))
-
-	println(texture)
+func renderBlock(c *render.Camera, mat *Mat4, texture uint32) {
 	gl.UseProgram(render.TextureProgram().ID())
 	gl.BindVertexArray(cubeVAO)
 
 	c.SetProgramAttributes(render.TextureProgram())
 
 	modelAttrLocation := render.TextureProgram().Locations.ModelMatrixLocation()
-	gl.UniformMatrix4fv(modelAttrLocation, 1, false, &mat[0])
+	gl.UniformMatrix4fv(modelAttrLocation, 1, false, &(*mat)[0])
 
 	textureUniform := render.TextureProgram().Locations.TextureLocation()
 	gl.Uniform1i(textureUniform, 0) // number bound here must match the active texture

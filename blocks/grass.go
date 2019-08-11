@@ -10,6 +10,9 @@ import (
 type GrassBlock struct {
 	Block
 	lifespan, health float32
+    matrix *Mat4
+
+	gridX, gridY, gridZ int
 }
 
 // NewGrassBlock creates a new GrassBlock and returns it
@@ -22,7 +25,7 @@ func NewGrassBlock() *GrassBlock {
 
 // Render renders the GrassBlock
 func (b *GrassBlock) Render(c *render.Camera) {
-	renderBlock(c, grassTexture.ID())
+	renderBlock(c, b.Matrix(), grassTexture.ID())
 }
 
 // Hit is called when the Killable is hit. Returns any items that
@@ -53,9 +56,21 @@ func (b *GrassBlock) Lifespan() float32 {
     return b.lifespan
 }
 
-func (b *GrassBlock) SetGridPos(row, col int) {
+// Matrix returns a pointer to the orientation matrix of
+// this block
+func (b *GrassBlock) Matrix() *Mat4 {
+    return b.matrix
 }
 
-func (b *GrassBlock) GridPos() (row, col int) {
-    return 0, 0
+// SetMatrix sets the matrix of the block
+func (b *GrassBlock) SetMatrix(mat Mat4) {
+    b.matrix = &mat
+}
+
+func (b *GrassBlock) GridPos() (x, y, z int) {
+	return b.gridX, b.gridY, b.gridZ
+}
+
+func (b *GrassBlock) SetGridPos(x, y, z int) {
+	b.gridX, b.gridY, b.gridZ = x, y, z
 }
