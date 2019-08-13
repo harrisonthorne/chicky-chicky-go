@@ -9,7 +9,7 @@ import (
 	mgl "github.com/go-gl/mathgl/mgl32"
 )
 
-const blockWidth = 0.5 // in meters
+const BlockWidth = 0.5 // in meters
 
 // Mat4 is a convenience type, a copy of mgl.Mat4
 type Mat4 = mgl.Mat4

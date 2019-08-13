@@ -5,13 +5,11 @@ import (
 	mgl "github.com/go-gl/mathgl/mgl32"
 )
 
-const (
-    chunkSize = 64
-)
+const ChunkSize = 64
 
 // Chunk contains a three-dimensional array of blocks
 type Chunk struct {
-	blocks [chunkSize][chunkSize][chunkSize]*Block
+	blocks [ChunkSize][ChunkSize][ChunkSize]*Block
 	ordinal int
     matrix *mgl.Mat4
 }
