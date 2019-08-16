@@ -79,20 +79,21 @@ func New(spritePath string, frames int, secondsPerFrame float32) (s *Sprite, err
 func MustNew(spritePath string, frames int, secondsPerFrame float32) *Sprite {
 	sprite, err := New(spritePath, frames, secondsPerFrame)
 
+	if err != nil {
+		panic(err)
+	}
+
 	sprite.positionMatrix = mgl.Ident4()
 	sprite.sizeMatrix = mgl.Ident4()
 	sprite.updateMatrix()
 
-	if err != nil {
-		panic(err)
-	}
 
 	return sprite
 }
 
 // Animate animates the Sprite.
 func (s *Sprite) Animate(delta float32) {
-	// if one frame or less, animation doesn't matter
+	// if one frame or less, animation doesn't matte,
 	if s.frames <= 1 {
 		return
 	}
