@@ -115,6 +115,7 @@ Hostiles
 ===========================================================
 
 All
+    - Hostile living geodes
     - Ghost demons
     - Goblins (see below for variations)
         - shy variant
@@ -158,3 +159,4 @@ Ideas
 - Asteroid shower
     - Hexagonal diamonds after strike
 - Rainbows
+- Ruins
