@@ -10,7 +10,12 @@ func TextureProgram() Program {
 func initTextureShader() {
     var err error
     textureShader, err = NewProgram(vertexTextureShaderSource, fragmentTextureShaderSource, textureShaderNames)
+
     if err != nil {
+		println("vertexTextureShaderSource:")
+		println(vertexTextureShaderSource)
+		println("fragmentTextureShaderSource:")
+		println(fragmentTextureShaderSource)
         panic(err)
     }
 }
@@ -24,6 +29,8 @@ var textureShaderNames = ProgramAttrNames{
     FragTexCoord: "fragTexCoord",
     TexSampler: "tex",
     OutColor: "outputColor",
+    SpriteFrames: "spriteFrames",
+    SpriteCurrentFrame: "spriteCurrentFrame",
 }
 
 // VertexTextureShaderSource is the source for the vertex shader of
@@ -56,16 +63,27 @@ var fragmentTextureShaderSource = `
 
 uniform sampler2D ` + textureShaderNames.TexSampler + `;
 
+uniform int ` + textureShaderNames.SpriteFrames + `;
+uniform int ` + textureShaderNames.SpriteCurrentFrame + `;
+
 in vec2 ` + textureShaderNames.FragTexCoord + `;
 
 out vec4 ` + textureShaderNames.OutColor + `;
 
 void main() {
-    vec4 texColor = texture(` + textureShaderNames.TexSampler + `, ` + textureShaderNames.FragTexCoord + `);
-    if (texColor.a < 0.05)
-        discard;
+	vec4 texColor;
+	if (` + textureShaderNames.SpriteFrames + ` == 0) {
+		texColor = texture(` + textureShaderNames.TexSampler + `, ` + textureShaderNames.FragTexCoord + `);
+	} else {
+		float width = 1.0 / ` + textureShaderNames.SpriteFrames + `;
+		float spriteStartX = width * ` + textureShaderNames.SpriteCurrentFrame + `;
+		float texX = spriteStartX + float(` + textureShaderNames.FragTexCoord + `.x) / ` + textureShaderNames.SpriteFrames + `;
+		texColor = texture(` + textureShaderNames.TexSampler + `, vec2(texX, ` + textureShaderNames.FragTexCoord + `.y));
+	}
+	if (texColor.a < 0.05)
+		discard;
 
-    ` + textureShaderNames.OutColor + ` = texColor;
+	` + textureShaderNames.OutColor + ` = texColor;
 }
 ` + "\x00"
 

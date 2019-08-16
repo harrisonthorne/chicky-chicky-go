@@ -17,10 +17,10 @@ func InitGL() {
 
     chickenTextures[ActionNothing] = sprite.MustNew("assets/photos/chicken/stand.png", 1, 0)
 	chickenTextures[ActionNothing].SetSize(chickenHeight, chickenWidth)
-    chickenTextures[ActionRun] = sprite.MustNew("assets/photos/chicken/sprint.png", 4, 0.25)
-    chickenTextures[ActionWalk] = sprite.MustNew("assets/photos/chicken/walk.png", 4, 0.5)
-    chickenTextures[ActionSquat] = sprite.MustNew("assets/photos/chicken/squat.png", 1, 0)
-    chickenTextures[ActionPush] = sprite.MustNew("assets/photos/chicken/push.png", 4, 1)
+    chickenTextures[ActionRun] = sprite.MustNew("assets/photos/chicken/sprint.png", 4, 0.15)
+    chickenTextures[ActionWalk] = sprite.MustNew("assets/photos/chicken/walk.png", 4, 0.2)
+    chickenTextures[ActionSquat] = sprite.MustNew("assets/photos/chicken/squat.png", 0, 0)
+    chickenTextures[ActionPush] = sprite.MustNew("assets/photos/chicken/push.png", 4, 0.75)
     chickenTextures[ActionFall] = sprite.MustNew("assets/photos/chicken/fall.png", 2, 0.1)
 }
 
@@ -37,7 +37,7 @@ type Chicken struct {
 
 // NewChicken creates and initializes a new Chicken
 func NewChicken() *Chicken {
-	return &Chicken{action: ActionWalk}
+	return &Chicken{action: ActionNothing}
 }
 
 // Move moves the chicken!

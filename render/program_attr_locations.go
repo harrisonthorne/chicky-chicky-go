@@ -7,6 +7,8 @@ type ProgramAttrLocations struct {
     cameraMatrix int32
     modelMatrix int32
     texture int32
+	spriteFrames int32
+	spriteCurrentFrame int32
 }
 
 // PerspectiveMatrixLocation returns the perspective matrix
@@ -30,4 +32,14 @@ func (p ProgramAttrLocations) ModelMatrixLocation() int32 {
 // TextureLocation returns the texture attribute location
 func (p ProgramAttrLocations) TextureLocation() int32 {
     return p.texture
+}
+
+// 
+func (p ProgramAttrLocations) SpriteFramesLocation() int32 {
+    return p.spriteFrames
+}
+
+// 
+func (p ProgramAttrLocations) SpriteCurrentFrameLocation() int32 {
+    return p.spriteCurrentFrame
 }

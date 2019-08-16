@@ -1,6 +1,7 @@
 package sprite
 
 import (
+	"errors"
 	"os"
 
 	"github.com/go-gl/gl/v4.1-core/gl"
@@ -27,7 +28,6 @@ type Sprite struct {
     pixelWidth, pixelHeight int
 }
 
-// TODO: initialize sprite plane vbo
 var planeVAO, planeVBO uint32
 
 var modelAttrLocation, textureUniform int32
@@ -45,6 +45,15 @@ func InitGL() {
 // New creates a new sprite and returns it
 func New(spritePath string, frames int, secondsPerFrame float32) (s *Sprite, err error) {
 	s = new(Sprite)
+
+	if frames <= 0 {
+		frames = 1
+		if secondsPerFrame <= 0 {
+			secondsPerFrame = 1
+		}
+	} else if secondsPerFrame <= 0 {
+		return nil, errors.New("secondsPerFrame cannot be less than or equal to 0 if frames is greater than 0")
+	}
 
 	// open the sprite file
 	spriteFile, err := os.Open(spritePath)
@@ -83,6 +92,10 @@ func MustNew(spritePath string, frames int, secondsPerFrame float32) *Sprite {
 
 // Animate animates the Sprite.
 func (s *Sprite) Animate(delta float32) {
+	// if one frame or less, animation doesn't matter
+	if s.frames <= 1 {
+		return
+	}
 	s.currentFrame += delta / s.secondsPerFrame
 	for s.currentFrame >= float32(s.frames) {
 		s.currentFrame -= float32(s.frames)
@@ -122,6 +135,9 @@ func (s *Sprite) Render(c *render.Camera) {
 
 	modelAttrLocation := render.TextureProgram().Locations.ModelMatrixLocation()
 	gl.UniformMatrix4fv(modelAttrLocation, 1, false, &s.matrix[0])
+
+	gl.Uniform1i(render.TextureProgram().Locations.SpriteFramesLocation(), int32(s.frames))
+	gl.Uniform1i(render.TextureProgram().Locations.SpriteCurrentFrameLocation(), int32(s.currentFrame)) // number bound here must match the active texture
 
 	textureUniform := render.TextureProgram().Locations.TextureLocation()
 	gl.Uniform1i(textureUniform, 0) // number bound here must match the active texture

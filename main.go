@@ -38,6 +38,8 @@ func init() {
 	startGLFW()
 }
 
+const fps = 60.0
+
 func main() {
 	initPackagesGL()
 
@@ -47,19 +49,34 @@ func main() {
 	gl.Enable(gl.DEPTH_TEST)
 	// gl.Enable(gl.TEXTURE_2D)
 	gl.DepthFunc(gl.LESS)
+	gl.Enable(gl.CULL_FACE)
+	gl.CullFace(gl.BACK)
 
 	lastUpdate := time.Now()
 
 	for !window.ShouldClose() {
-		deltaSeconds := float32(time.Now().Sub(lastUpdate).Seconds())
+		now := time.Now()
 
+		// run no faster than specified fps
+		deltaSeconds := float32(now.Sub(lastUpdate).Seconds())
+		if deltaSeconds < 1.0 / fps {
+			time.Sleep(time.Second * time.Duration((1.0/fps)-deltaSeconds))
+			continue
+		}
+
+		// logic
 		game.Logic(deltaSeconds)
 
+		// render
 		gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 		game.Render()
 
+		// input
 		window.SwapBuffers()
 		glfw.PollEvents()
+
+		// update time
+		lastUpdate = now;
 	}
 }
 

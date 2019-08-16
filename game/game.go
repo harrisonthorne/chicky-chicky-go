@@ -34,15 +34,8 @@ var last = time.Now()
 
 // Render renders the game.
 func Render() {
-	now := time.Now()
-	
-	oneFrameTime := float32(now.Sub(last))/float32(time.Second)
-
-	println(float32(1)/oneFrameTime)
-
-	last = now
-	//characterInControl.Render(cam)
-	plot.Render(cam)
+	characterInControl.Render(cam)
+	// plot.Render(cam)
 }
 
 type keyListener struct{}

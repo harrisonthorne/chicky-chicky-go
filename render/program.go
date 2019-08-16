@@ -24,6 +24,8 @@ type ProgramAttrNames struct {
     VertTexCoord string
     FragTexCoord string
     TexSampler string
+	SpriteFrames string
+	SpriteCurrentFrame string
 }
 
 // ID returns the program's OpenGL ID
@@ -43,6 +45,8 @@ func NewProgram(vertexShaderSource, fragmentShaderSource string, names ProgramAt
 	p.Locations.perspectiveMatrix = gl.GetUniformLocation(p.id, gl.Str(names.PerspectiveMatrix+"\x00"))
 	p.Locations.cameraMatrix = gl.GetUniformLocation(p.id, gl.Str(names.CameraMatrix+"\x00"))
 	p.Locations.modelMatrix = gl.GetUniformLocation(p.id, gl.Str(names.ModelMatrix+"\x00"))
+	p.Locations.spriteFrames = gl.GetUniformLocation(p.id, gl.Str(names.SpriteFrames+"\x00"))
+	p.Locations.spriteCurrentFrame = gl.GetUniformLocation(p.id, gl.Str(names.SpriteCurrentFrame+"\x00"))
 
 	gl.BindFragDataLocation(p.id, 0, gl.Str(names.OutColor+"\x00"))
 
