@@ -22,7 +22,7 @@ func NewChunk(ordinal int) *Chunk {
         for j := 0; j < len(p.blocks[i]); j++ {
             for k := 0; k < len(p.blocks[i][j]); k++ {
                 block := NewGrassBlock()
-                x, y, z := float32(i)*blockWidth, float32(j)*blockWidth, float32(-k)*blockWidth
+                x, y, z := float32(i)*BlockWidth, float32(j)*BlockWidth, float32(-k)*BlockWidth
                 block.SetMatrix(mgl.Ident4().Mul4(mgl.Translate3D(x, y, z)))
                 p.Set(i, j, k, block)
             }

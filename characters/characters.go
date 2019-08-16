@@ -11,6 +11,7 @@ import (
 // PhysicalObject, Renderable, and Killable
 type Character interface {
 	types.Killable
+	types.Logicable
 	types.Renderable
 	Controllable
 }

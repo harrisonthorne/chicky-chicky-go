@@ -37,7 +37,7 @@ type Chicken struct {
 
 // NewChicken creates and initializes a new Chicken
 func NewChicken() *Chicken {
-	return &Chicken{action: ActionNothing}
+	return &Chicken{action: ActionWalk}
 }
 
 // Move moves the chicken!
@@ -53,7 +53,7 @@ func (c *Chicken) Move(direction Direction, super bool)  {
 // Jump jumps the chicken
 func (c *Chicken) Jump(super bool) {
 	if c.Hitbox != nil {
-		c.ApplyForce(maths.Vec2{X: 0, Y: 6})
+		c.ApplyForce(maths.Vec3{X: 0, Y: 6, Z: 0})
 	}
 }
 
@@ -68,7 +68,7 @@ func (c *Chicken) Stop() {
     c.action = ActionNothing
 }
 
-// Hit hits the chicken with the Item and power specified.
+// Hit hits the chicken with the object and power specified.
 func (c *Chicken) Hit(with interface{}, power float32) []items.Item {
     return nil
 }
@@ -83,6 +83,12 @@ func (c *Chicken) Kill() []items.Item {
 // IsAlive returns true if the chicken is alive
 func (c *Chicken) IsAlive() bool {
 	return true
+}
+
+// Logic performs logic for the Chicken.
+func (c *Chicken) Logic(delta float32) {
+	// c.PhysicalObject.Physics(delta)
+	c.Animate(delta)
 }
 
 // Animate moves and calculates sprite frames for the

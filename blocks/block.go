@@ -22,8 +22,8 @@ type Block interface {
 	Matrix() *Mat4
 	SetMatrix(mat Mat4)
 
-	SetGridPos(row, col int)
-	GridPos() (row, col int)
+	SetGridPos(x, y, z int)
+	GridPos() (x, y, z int)
 }
 
 var cubeVAO, cubeVBO uint32

@@ -2,6 +2,7 @@ package game
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/harrisonthorne/chicky-chicky-go/characters"
 	"github.com/harrisonthorne/chicky-chicky-go/blocks"
@@ -23,15 +24,25 @@ func init() {
 // Logic performs logic for the game. This includes movement, physics,
 // clocks, animation, etc
 func Logic(delta float32) {
-
+	characterInControl.Logic(delta);
 }
 
-var cam = render.NewCamera(maths.Vec3{X:0, Y:0, Z:1}, 70, 800.0/600)
+var cam = render.NewCamera(maths.Vec3{X:0, Y:0, Z:2}, 70, 800.0/600)
+var plot = blocks.NewChunk(0)
+
+var last = time.Now()
 
 // Render renders the game.
 func Render() {
-	characterInControl.Render(cam)
-	// block.Render(cam)
+	now := time.Now()
+	
+	oneFrameTime := float32(now.Sub(last))/float32(time.Second)
+
+	println(float32(1)/oneFrameTime)
+
+	last = now
+	//characterInControl.Render(cam)
+	plot.Render(cam)
 }
 
 type keyListener struct{}

@@ -46,8 +46,7 @@ type Killable interface {
 	// left. Any Killables determined to be dead are removed
 	// from the world
 	IsAlive() bool
-
-	// Returns the number of health points left on the
+// Returns the number of health points left on the
 	// Killable
 	HealthLeft() float32
 
@@ -59,4 +58,9 @@ type Killable interface {
 // rendered.
 type Renderable interface {
 	Render(c *render.Camera)
+}
+
+// Logicable is on objects that should have logic calculated for them
+type Logicable interface {
+	Logic(delta float32)
 }
